@@ -25,7 +25,7 @@ then
 			fi
 			LANG=C git ls-files --others --exclude-standard -z | xargs -0 tar rvf "${DIR}/${FILE_NAME}"
 			;;
-		"-u")
+		"-u"|"--unswap")
 			if [ -f "${DIR}/${FILE_NAME}" ]
 			then
 				tar xvf "${DIR}/${FILE_NAME}"
@@ -37,6 +37,14 @@ then
 				echo "Exiting." >&2
 				exit 1
 			fi
+			;;
+		"-h"|"--help")
+			echo "${0}"
+			echo "Usage:"
+			echo "  -u        Move files back into repository"
+			echo "  --unswap  Move files back into repository"
+			echo "  -h        Display help"
+			echo "  --help    Display help"
 			;;
 		*)
 			echo "${0}: Unknown command ${1}"
