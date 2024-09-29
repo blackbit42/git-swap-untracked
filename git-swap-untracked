@@ -13,30 +13,35 @@ FILE_NAME="git-swap-untracked.tar"
 
 if LANG=C git rev-parse --is-inside-work-tree 2>/dev/null | grep -q "true"
 then
-	if [ "${1:-}" = "unswap" ]
-	then
-		if [ -f "${DIR}/${FILE_NAME}" ]
-		then
-			tar xvf "${DIR}/${FILE_NAME}"
-			rm "${DIR}/${FILE_NAME}"
-			find "${DEST}" -mindepth 1 -type d -empty -delete
-		else
-			echo "Target doesn't exist." >&2
-			echo "${DIR}/${FILE_NAME}" >&2
-			echo "Exiting." >&2
-			exit 1
-		fi
-	else
-		mkdir -p "${DIR}"
-		if [ -f "${DIR}/${FILE_NAME}" ]
-		then
-			echo "Target already exists." >&2
-			echo "${DIR}/${FILE_NAME}" >&2
-			echo "Exiting." >&2
-			exit 1
-		fi
-		LANG=C git ls-files --others --exclude-standard -z | xargs -0 tar rvf "${DIR}/${FILE_NAME}"
-	fi
+	case "${1:-}" in 
+		"")
+			mkdir -p "${DIR}"
+			if [ -f "${DIR}/${FILE_NAME}" ]
+			then
+				echo "Target already exists." >&2
+				echo "${DIR}/${FILE_NAME}" >&2
+				echo "Exiting." >&2
+				exit 1
+			fi
+			LANG=C git ls-files --others --exclude-standard -z | xargs -0 tar rvf "${DIR}/${FILE_NAME}"
+			;;
+		"-u")
+			if [ -f "${DIR}/${FILE_NAME}" ]
+			then
+				tar xvf "${DIR}/${FILE_NAME}"
+				rm "${DIR}/${FILE_NAME}"
+				find "${DEST}" -mindepth 1 -type d -empty -delete
+			else
+				echo "Target doesn't exist." >&2
+				echo "${DIR}/${FILE_NAME}" >&2
+				echo "Exiting." >&2
+				exit 1
+			fi
+			;;
+		*)
+			echo "${0}: Unknown command ${1}"
+			;;
+	esac
 else
 	echo "${PWD} is not a git repo. Exiting."
 	exit 1
