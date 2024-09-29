@@ -24,6 +24,7 @@ then
 				exit 1
 			fi
 			LANG=C git ls-files --others --exclude-standard -z | xargs -0 tar rvf "${DIR}/${FILE_NAME}"
+			LANG=C git ls-files --others --exclude-standard -z | xargs -0 rm
 			;;
 		"-u"|"--unswap")
 			if [ -f "${DIR}/${FILE_NAME}" ]
