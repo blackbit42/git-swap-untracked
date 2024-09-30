@@ -23,8 +23,7 @@ then
 				echo "Exiting." >&2
 				exit 1
 			fi
-			LANG=C git ls-files --others --exclude-standard -z | xargs -0 tar rvf "${DIR}/${FILE_NAME}"
-			LANG=C git ls-files --others --exclude-standard -z | xargs -0 rm
+			LANG=C git ls-files --others --exclude-standard -z | xargs -0 -I '{}' sh -c "tar rvf \"${DIR}\"/\"${FILE_NAME}\" {}; rm {}"
 			;;
 		"-u"|"--unswap")
 			if [ -f "${DIR}/${FILE_NAME}" ]
