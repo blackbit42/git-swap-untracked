@@ -48,7 +48,7 @@ then
 			echo "  --help    Display help"
 			;;
 		*)
-			echo "${0}: Unknown command ${1}"
+			echo "${0}: Unknown command ${1}. Try '-h' or '--help'"
 			;;
 	esac
 else
