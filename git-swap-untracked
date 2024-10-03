@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This script allows you to temporarily move untracked files out of a checked out git repository.
+# This is a simple bash script that helps you to quickly, temporarily move untracked files out of a checked-out git repository.
 
 set -e
 set -u
