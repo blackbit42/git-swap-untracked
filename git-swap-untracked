@@ -10,6 +10,7 @@ BASE="${XDG_DATA_HOME:-$HOME/.local/share}"
 DEST="${BASE}/git-swap-untracked"
 DIR="${DEST}/${PWD}"
 FILE_NAME="git-swap-untracked.tar"
+PROG_NAME="$(basename "${0}")"
 
 if LANG=C git rev-parse --is-inside-work-tree 2>/dev/null | grep -q "true"
 then
@@ -39,7 +40,7 @@ then
 			fi
 			;;
 		"-h"|"--help")
-			echo "${0}"
+			echo "${PROG_NAME}"
 			echo "Usage:"
 			echo "  -u        Move files back into repository"
 			echo "  --unswap  Move files back into repository"
@@ -47,7 +48,7 @@ then
 			echo "  --help    Display help"
 			;;
 		*)
-			echo "${0}: Unknown command ${1}. Try '-h' or '--help'"
+			echo "${PROG_NAME}: Unknown command ${1}. Try '-h' or '--help'"
 			;;
 	esac
 else
